@@ -63,17 +63,14 @@ sub ___build_tor_client {
     }
 
     return $pid if $pid;
-    warn "tor stdout filename $tor_stdout_filename";
-#    close STDIN; close STDOUT; close STDERR;
-close STDOUT;
-open STDOUT , '>>', $tor_stdout_filename;
+    close STDIN; close STDOUT; close STDERR;
+    open STDOUT , '>>', $tor_stdout_filename;
 
     exec($binary, ("-Log","notice stdout")) or croak "Couldn't start the tor client :$!";
 }
 
 sub BUILD {
     my $self = shift;
-warn "here";
 
     my $binary              = $self->_get_tor_binary_path();
     my $tor_stdout_filename = join "/", '/tmp', mktemp("tmpfileXXXXXXXXXX");
@@ -87,10 +84,7 @@ warn "here";
        # wait for the tor client to bootstrap itself
        last unless defined $line;
        last if $line =~ /Bootstrapped 100%: Done\.$/;
-       warn "l";
     }
-
-    warn "here123";
 
     unlink $tor_stdout_filename;
 
