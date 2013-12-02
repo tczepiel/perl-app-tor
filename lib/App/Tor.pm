@@ -52,7 +52,6 @@ sub _get_tor_binary_path {
 sub ___build_tor_client {
     my ($binary,$tor_stdout_filename) = @_;
 
-
     # uh... 
     $SIG{CHLD}='IGNORE';
 
@@ -111,12 +110,14 @@ sub DESTROY {
 
 __END__
 
-=head1  LWP::UserAgent::Tor
+=head1  App::Tor
 
 =head1 SYNOPSIS
 
-my $ua = LWP::UserAgent::Tor->new();
+my $tor_client = App::Tor->new();
+# now we have a tor client running in the backgroupd
 
+my $ua = $tor->get_ua; # return LWP::UserAgent object, with the proxy settings predefined.
 my $res = $ua->post("http://173.194.34.68");
 
 
