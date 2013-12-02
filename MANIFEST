@@ -1,0 +1,6 @@
+Changes
+Makefile.PL
+MANIFEST
+README
+t/App-Tor.t
+lib/App/Tor.pm
