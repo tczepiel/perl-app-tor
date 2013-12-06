@@ -78,9 +78,9 @@ sub BUILD {
     sleep 1 while ( ! -e $tor_stdout_filename );
 
 
+    # wait here until the client bootstrapped
     my $tail = File::Tail->new($tor_stdout_filename);
     while ( my $line = $tail->read() ) {
-       # wait for the tor client to bootstrap itself
        last unless defined $line;
        last if $line =~ /Bootstrapped 100%: Done\.$/;
     }
@@ -88,6 +88,20 @@ sub BUILD {
     unlink $tor_stdout_filename;
 
     return $self;
+}
+
+sub get_socket {
+    my $self        = shift;
+    my %socket_args = @_;
+    my ($proxy_host,$proxy_port) = $self->proxy_addr =~ m[socks://(\w+):(\d+)];
+
+    require IO::Socket::Socks;
+
+    return IO::Socket::Socks->new(
+       ProxyAddr => $proxy_host,
+       ProxyPort => $proxy_port,
+       %socket_args,
+    );
 }
 
 sub get_ua {
@@ -120,8 +134,12 @@ my $tor_client = App::Tor->new();
 my $ua = $tor->get_ua; # return LWP::UserAgent object, with the proxy settings predefined.
 my $res = $ua->post("http://173.194.34.68");
 
+my $socks5_socket = $tor->get_socket(%socket_args);
+
 
 =head1 DESCRIPTION
 
-do http over tor, start the tor client if needed
+set of utility functions for working with tor.
+
+
 

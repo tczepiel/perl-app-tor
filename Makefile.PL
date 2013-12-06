@@ -14,6 +14,7 @@ WriteMakefile(
         'File::Tail'           => 0,
         'File::Temp'           => 0,
         'MooX::Singleton'      => 0,
+        'IO::Socket::Socks'    => 0,
 
     },
     ($] >= 5.005 ?
