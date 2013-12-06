@@ -41,12 +41,12 @@ sub _get_tor_binary_path {
         return $binary;
     }
     elsif ($binary = $ENV{LWP_UA_TOR_CLIENT_BINARY_PATH}) {
-        croak "got the binary path environment variable \$LWP_UA_TOR_CLIENT_BINARY_PATH  but the file specified is invalid or isn't executable"
+        croak "I got the binary path environment variable \$LWP_UA_TOR_CLIENT_BINARY_PATH  but the file specified is invalid or isn't executable"
             unless -f $binary && -x $binary;
         return $binary;
     }
 
-    croak "neother LWP_UA_TOR_CLIENT_BINARY_PATH environment variable was set, nor tor_client_binary parameter provided to the object constructr";
+    croak "neither LWP_UA_TOR_CLIENT_BINARY_PATH environment variable was set, nor tor_client_binary parameter provided to the object constructr";
 }
 
 sub ___build_tor_client {
