@@ -52,9 +52,6 @@ sub _get_tor_binary_path {
 sub ___build_tor_client {
     my ($binary,$tor_stdout_filename) = @_;
 
-    # uh... 
-    $SIG{CHLD}='IGNORE';
-
     my $pid = fork();
 
     if ( ! defined $pid ) {
